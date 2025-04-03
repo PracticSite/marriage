@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Виртуальные экскурсии | Amore legato con anelli</title>
+    <style>
+    :root {
+        --primary-blue: #3498db;
+        --secondary-blue: #2980b9;
+        --light-blue: #e1f0fa;
+        --dark-blue: #2c3e50;
+        --accent-teal: #1abc9c;
+        --text-color: #333;
+        --light-text: #fff;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Montserrat', 'Arial', sans-serif;
+        background: linear-gradient(135deg, #f5f9fc, #e1f0fa);
+        color: var(--text-color);
+        min-height: 100vh;
+        overflow-x: hidden;
+        line-height: 1.6;
+    }
+    
+    .header {
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        padding: 15px 0;
+        position: relative;
+        z-index: 100;
+        backdrop-filter: blur(5px);
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--dark-blue);
+        text-decoration: none;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+    }
+    
+    .logo:hover {
+        color: var(--primary-blue);
+        transform: translateX(5px);
+    }
+    
+    .logo i {
+        margin-right: 8px;
+        color: var(--accent-teal);
+    }
+    
+    h1 {
+        text-align: center;
+        margin: 40px 0 30px;
+        color: var(--dark-blue);
+        font-size: 2.2rem;
+        position: relative;
+        font-weight: 600;
+        padding: 0 15px;
+    }
+    
+    h1::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(to right, var(--primary-blue), var(--accent-teal));
+        margin: 15px auto 0;
+        border-radius: 2px;
+    }
+    
+    .tours-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        padding: 0 15px 40px;
+    }
+    
+    .tour-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+        border: 1px solid rgba(52, 152, 219, 0.2);
+    }
+    
+    .tour-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .tour-image {
+        height: 250px;
+        position: relative;
+        overflow: hidden;
+        background: var(--light-blue);
+    }
+    
+    .tour-image::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.3));
+        z-index: 1;
+        opacity: 0;
+        transition: var(--transition);
+    }
+    
+    .tour-card:hover .tour-image::before {
+        opacity: 1;
+    }
+    
+    .tour-image video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: var(--transition);
+    }
+    
+    .tour-card:hover video {
+        transform: scale(1.03);
+    }
+    
+    .play-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--light-text);
+        font-size: 2.5rem;
+        opacity: 0.8;
+        z-index: 2;
+        transition: var(--transition);
+    }
+    
+    .tour-card:hover .play-icon {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    
+    .tour-info {
+        padding: 20px;
+    }
+    
+    .tour-title {
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+        color: var(--dark-blue);
+        display: flex;
+        align-items: center;
+    }
+    
+    .tour-title i {
+        margin-right: 8px;
+        color: var(--accent-teal);
+    }
+    
+    .tour-description {
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        font-size: 1rem;
+    }
+    
+    .tour-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .feature {
+        background: var(--light-blue);
+        color: var(--primary-blue);
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+    
+    .feature:hover {
+        background: var(--primary-blue);
+        color: var(--light-text);
+        transform: translateY(-2px);
+    }
+    
+    /* Прелоадер для видео */
+    .video-loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--light-blue);
+        z-index: 2;
+    }
+    
+    .loader {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(52, 152, 219, 0.2);
+        border-radius: 50%;
+        border-top-color: var(--primary-blue);
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Анимации */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .tour-card {
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+    }
+    
+    .tour-card:nth-child(1) { animation-delay: 0.1s; }
+    .tour-card:nth-child(2) { animation-delay: 0.2s; }
+    .tour-card:nth-child(3) { animation-delay: 0.3s; }
+    
+    /* Декоративные элементы */
+    .watermark {
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        color: rgba(52, 152, 219, 0.05);
+        font-size: 15rem;
+        font-weight: 900;
+        z-index: -1;
+        user-select: none;
+        pointer-events: none;
+    }
+    
+    /* Адаптивность */
+    /* Планшеты в портретной ориентации */
+    @media (max-width: 992px) {
+        .tours-container {
+            grid-template-columns: 1fr;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .tour-image {
+            height: 350px;
+        }
+    }
+    
+    /* Планшеты в альбомной ориентации */
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2rem;
+            margin: 35px 0 25px;
+        }
+        
+        .tour-image {
+            height: 300px;
+        }
+        
+        .tour-info {
+            padding: 18px;
+        }
+        
+        .tour-title {
+            font-size: 1.3rem;
+        }
+        
+        .play-icon {
+            font-size: 2.2rem;
+        }
+    }
+    
+    /* Большие мобильные устройства */
+    @media (max-width: 600px) {
+        .logo {
+            font-size: 1.3rem;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin: 30px 0 20px;
+        }
+        
+        .tour-image {
+            height: 250px;
+        }
+        
+        .watermark {
+            font-size: 12rem;
+        }
+    }
+    
+    /* Средние мобильные устройства */
+    @media (max-width: 480px) {
+        .header {
+            padding: 12px 0;
+        }
+        
+        .logo {
+            font-size: 1.2rem;
+        }
+        
+        h1 {
+            font-size: 1.6rem;
+            margin: 25px 0 15px;
+        }
+        
+        h1::after {
+            width: 60px;
+            height: 3px;
+            margin: 10px auto 0;
+        }
+        
+        .tour-image {
+            height: 220px;
+        }
+        
+        .tour-info {
+            padding: 15px;
+        }
+        
+        .tour-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .tour-description {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        
+        .play-icon {
+            font-size: 2rem;
+        }
+        
+        .watermark {
+            font-size: 10rem;
+        }
+    }
+    
+    /* Маленькие мобильные устройства */
+    @media (max-width: 360px) {
+        .logo {
+            font-size: 1.1rem;
+        }
+        
+        h1 {
+            font-size: 1.4rem;
+        }
+        
+        .tour-image {
+            height: 200px;
+        }
+        
+        .tour-title {
+            font-size: 1.1rem;
+        }
+        
+        .tour-description {
+            font-size: 0.9rem;
+        }
+        
+        .feature {
+            font-size: 0.75rem;
+        }
+        
+        .watermark {
+            font-size: 8rem;
+        }
+    }
+    
+    /* Очень маленькие устройства */
+    @media (max-width: 320px) {
+        .tours-container {
+            padding: 0 10px 30px;
+        }
+        
+        .tour-image {
+            height: 180px;
+        }
+        
+        .tour-info {
+            padding: 12px;
+        }
+    }
+</style>    
+</head>
+<body>
+    <div class="watermark">SPB</div>
+    
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="sait.html" class="logo"><i class="fas fa-ring"></i>Amore legato con anelli</a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <h1>Виртуальные экскурсии по свадебным локациям</h1>
+        
+        <div class="tours-container">
+            <!-- Локация 1 -->
+            <div class="tour-card">
+                <div class="tour-image">
+                    <div class="video-loader">
+                        <div class="loader"></div>
+                    </div>
+                    <video muted loop playsinline preload="metadata">
+                        <source src="роскошный банкет.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="tour-info">
+                    <h3 class="tour-title"><i class="fas fa-glass-cheers"></i> Роскошный банкетный зал</h3>
+                    <p class="tour-description">Элегантный зал с хрустальными люстрами, золотыми деталями и панорамными окнами. Идеальное место для торжественного приёма с атмосферой роскоши и изысканности.</p>
+                    <div class="tour-features">
+                        <span class="feature">В помещении</span>
+                        <span class="feature">Люкс стиль</span>
+                        <span class="feature">250 гостей</span>
+                        <span class="feature">300 м²</span>
+                        <span class="feature">Высота 5 м</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Локация 2 -->
+            <div class="tour-card">
+                <div class="tour-image">
+                    <div class="video-loader">
+                        <div class="loader"></div>
+                    </div>
+                    <video muted loop playsinline preload="metadata">
+                        <source src="садовая церемония — копия.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="tour-info">
+                    <h3 class="tour-title"><i class="fas fa-tree"></i> Садовая церемония</h3>
+                    <p class="tour-description">Уютный сад с цветущими деревьями и каменными дорожками для незабываемой церемонии под открытым небом. Идеальное сочетание природы и элегантности.</p>
+                    <div class="tour-features">
+                        <span class="feature">На открытом воздухе</span>
+                        <span class="feature">Натуральный стиль</span>
+                        <span class="feature">80 гостей</span>
+                        <span class="feature">500 м²</span>
+                        <span class="feature">Фуршетная зона</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Локация 3 -->
+            <div class="tour-card">
+                <div class="tour-image">
+                    <div class="video-loader">
+                        <div class="loader"></div>
+                    </div>
+                    <video muted loop playsinline preload="metadata">
+                        <source src="пляж.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+                <div class="tour-info">
+                    <h3 class="tour-title"><i class="fas fa-umbrella-beach"></i> Пляжная свадьба</h3>
+                    <p class="tour-description">Романтическая обстановка на белоснежном пляже с видом на закат и легкими драпировками в стиле бохо. Идеально для незабываемой церемонии у воды.</p>
+                    <div class="tour-features">
+                        <span class="feature">На открытом воздухе</span>
+                        <span class="feature">Бохо стиль</span>
+                        <span class="feature">100 гостей</span>
+                        <span class="feature">150 м пляжа</span>
+                        <span class="feature">Банкетная зона</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Оптимизированная загрузка видео
+            const videoContainers = document.querySelectorAll('.tour-image');
+            
+            videoContainers.forEach(container => {
+                const video = container.querySelector('video');
+                const loader = container.querySelector('.video-loader');
+                
+                // Показываем видео после загрузки метаданных
+                video.addEventListener('loadedmetadata', function() {
+                    // Небольшая задержка для плавности
+                    setTimeout(() => {
+                        loader.style.opacity = '0';
+                        setTimeout(() => {
+                            loader.style.display = 'none';
+                            video.style.opacity = '1';
+                        }, 300);
+                    }, 500);
+                });
+                
+                // Запускаем загрузку видео
+                video.load();
+                
+                // Автовоспроизведение при наведении
+                container.addEventListener('mouseenter', function() {
+                    video.play().catch(e => console.log('Автовоспроизведение не разрешено:', e));
+                });
+                
+                container.addEventListener('mouseleave', function() {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+                
+                // Для мобильных устройств - управление по тапу
+                container.addEventListener('click', function() {
+                    if (video.paused) {
+                        video.play().catch(e => {
+                            // Если автовоспроизведение заблокировано, показываем кнопку play
+                            this.querySelector('.play-icon').style.display = 'block';
+                        });
+                    } else {
+                        video.pause();
+                    }
+                });
+            });
+            
+            // Клик по карточке для управления видео
+            document.querySelectorAll('.tour-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.feature')) {
+                        const video = this.querySelector('video');
+                        if (video.paused) {
+                            video.play();
+                        } else {
+                            video.pause();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

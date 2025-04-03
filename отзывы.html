@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отзывы наших студентов</title>
+    <style>
+        :root {
+    --primary-color: #d14d7a;
+    --secondary-color: #f8d5e3;
+    --accent-color: #ff69b4;
+    --text-color: #333;
+    --light-text: #fff;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f9f3f3, #fff5f7);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 50px;
+    font-size: 2.8rem;
+    position: relative;
+    padding-bottom: 15px;
+    font-weight: 600;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    border-radius: 2px;
+}
+
+.reviews-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.reviews {
+    flex: 1;
+    min-width: 300px;
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.review {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    border-left: 5px solid var(--primary-color);
+}
+
+.review:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.review::before {
+    content: '\201C';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 5rem;
+    color: var(--secondary-color);
+    font-family: Georgia, serif;
+    line-height: 1;
+    z-index: 0;
+}
+
+.review p {
+    position: relative;
+    z-index: 1;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.review strong {
+    color: var(--primary-color);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.gallery-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.gallery-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 35px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: var(--light-text);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: var(--transition);
+    box-shadow: 0 5px 15px rgba(209, 77, 122, 0.4);
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(209, 77, 122, 0.6);
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+}
+
+.gallery-button:active {
+    transform: translateY(1px);
+}
+
+.gallery-button i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.auth-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+    color: #8b0000;
+    padding: 25px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(139, 0, 0, 0.3);
+    z-index: 1000;
+    font-weight: 600;
+    text-align: center;
+    display: none;
+    max-width: 90%;
+    border: 2px solid #ff1493;
+    animation: fadeInScale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 1.2rem;
+}
+
+.auth-message i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+    vertical-align: middle;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Анимация появления отзывов */
+.review {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s forwards;
+}
+
+.review:nth-child(1) { animation-delay: 0.1s; }
+.review:nth-child(2) { animation-delay: 0.3s; }
+.review:nth-child(3) { animation-delay: 0.5s; }
+.review:nth-child(4) { animation-delay: 0.7s; }
+.review:nth-child(5) { animation-delay: 0.9s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+    }
+    
+    .reviews {
+        grid-template-columns: 1fr;
+    }
+    
+    .review {
+        padding: 20px;
+    }
+    
+    .gallery-button {
+        padding: 15px 30px;
+        font-size: 1rem;
+    }
+}
+
+/* Дополнительные декоративные элементы */
+.floating-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    color: rgba(255, 182, 193, 0.4);
+    font-size: 20px;
+    animation: float 10s linear infinite;
+    opacity: 0;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.4;
+    }
+    90% {
+        opacity: 0.4;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    
+    <div class="container">
+        <h1>Отзывы наших студентов</h1>
+        
+        <div class="reviews-container">
+            <div class="reviews">
+                <div class="review">
+                    <p><strong>Анна Ковалева</strong> Я всегда мечтала стать свадебным организатором, и эти курсы стали для меня настоящим открытием! Программа была очень насыщенной: мы изучали не только теорию, но и практические аспекты. После завершения курса я организовала свою первую свадьбу и была в восторге от результата!</p>
+                </div>
+                <div class="review">
+                    <p><strong>Иван Петров</strong> Курсы превзошли все мои ожидания! Преподаватели были опытными практиками, делились реальными кейсами и давали нам полезные советы. Я научился планировать свадьбы от начала до конца и теперь уверен в своих силах. Спасибо команде за поддержку!</p>
+                </div>
+                <div class="review">
+                    <p><strong>Мария Смирнова</strong> Этот курс изменил мою жизнь! Я пришла сюда с нулевыми знаниями, но благодаря детальному обучению и вниманию со стороны наставников я уверенно шагнула в новую карьеру. Практические задания помогли мне почувствовать себя настоящим организатором. Рекомендую всем!</p>
+                </div>
+                <div class="review">
+                    <p><strong>Дмитрий Иванов</strong> Я долго думал, стоит ли идти на курс, но теперь понимаю, что это был лучший выбор в моей жизни. Мы прошли все этапы — от выбора места до работы с клиентами. Мои навыки заметно выросли, и я уже получил первые заказы. Огромное спасибо!</p>
+                </div>
+                <div class="review">
+                    <p><strong>Елена Сидорова</strong> Хочу выразить свою благодарность за этот курс! Я получила не только знания, но и много полезных контактов в индустрии. На занятиях мы делали много интересных проектов, и я почувствовала, что могу организовать любое мероприятие. Это был незабываемый опыт!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="gallery-button-container">
+            <a href="#" id="galleryButton" class="gallery-button">
+                <i class="fas fa-images"></i> Галерея работ студентов
+            </a>
+        </div>
+    </div>
+
+    <div class="auth-message" id="authMessage">
+        <i class="fas fa-exclamation-circle"></i> Авторизуйтесь для просмотра галереи!
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const galleryButton = document.getElementById('galleryButton');
+            const authMessage = document.getElementById('authMessage');
+            
+            // Создаем плавающие сердечки
+            const floatingHearts = document.getElementById('floatingHearts');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 10 + 5) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                floatingHearts.appendChild(heart);
+            }
+            
+            galleryButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Проверяем авторизацию
+                const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+                
+                if (isAuthenticated) {
+                    window.location.href = 'галерея работ студентов.html';
+                } else {
+                    authMessage.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        authMessage.style.display = 'none';
+                    }, 3000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

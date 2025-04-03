@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Часто задаваемые вопросы о курсах свадебных организаторов</title>
+  <style>
+    :root {
+    --primary-blue: #3498db;
+    --secondary-blue: #2980b9;
+    --light-blue: #e1f0fa;
+    --dark-blue: #2c3e50;
+    --accent-teal: #1abc9c;
+    --text-color: #333;
+    --light-text: #fff;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', 'Arial', sans-serif;
+    background: linear-gradient(135deg, var(--light-blue), #f5f9fc);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+.container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+.container.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--primary-blue), var(--accent-teal));
+}
+
+h1 {
+    text-align: center;
+    color: var(--dark-blue);
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    position: relative;
+    padding-bottom: 15px;
+    font-weight: 600;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal));
+    border-radius: 2px;
+}
+
+.faq {
+    margin-bottom: 40px;
+}
+
+.faq-item {
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(52, 152, 219, 0.1);
+    padding-bottom: 20px;
+    animation: fadeInUp 0.6s forwards;
+    opacity: 0;
+}
+
+.faq-item:nth-child(1) { animation-delay: 0.2s; }
+.faq-item:nth-child(2) { animation-delay: 0.4s; }
+.faq-item:nth-child(3) { animation-delay: 0.6s; }
+.faq-item:nth-child(4) { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h2 {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+h2:hover {
+    color: var(--secondary-blue);
+    transform: translateX(5px);
+}
+
+h2 i {
+    margin-right: 10px;
+    color: var(--accent-teal);
+}
+
+p {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    padding-left: 30px;
+}
+
+.question-form {
+    background: rgba(52, 152, 219, 0.05);
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px dashed var(--primary-blue);
+    animation: pulseBorder 2s infinite;
+}
+
+@keyframes pulseBorder {
+    0% { border-color: var(--primary-blue); }
+    50% { border-color: var(--accent-teal); }
+    100% { border-color: var(--primary-blue); }
+}
+
+.question-form h2 {
+    color: var(--dark-blue);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.question-form p {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--dark-blue);
+    padding-left: 0;
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid rgba(52, 152, 219, 0.3);
+    border-radius: 8px;
+    resize: none;
+    height: 120px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+    margin-bottom: 15px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+button {
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
+    background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+#message {
+    text-align: center;
+    color: var(--accent-teal);
+    font-weight: 600;
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: var(--transition);
+}
+
+#message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Декоративные элементы */
+.floating-icons {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.floating-icon {
+    position: absolute;
+    color: rgba(52, 152, 219, 0.1);
+    font-size: 24px;
+    animation: float 15s linear infinite;
+    opacity: 0;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    .question-form {
+        padding: 20px;
+    }
+}
+  </style>
+</head>
+<body>
+    <div class="floating-icons" id="floatingIcons"></div>
+    
+    <div class="container">
+        <h1><i class="fas fa-question-circle"></i> Часто задаваемые вопросы</h1>
+        
+        <div class="faq">
+            <div class="faq-item">
+                <h2><i class="fas fa-graduation-cap"></i> Что такое курс свадебных организаторов?</h2>
+                <p>Это профессиональная обучающая программа, направленная на развитие всех необходимых навыков и знаний для успешного планирования, организации и проведения свадебных мероприятий любого масштаба.</p>
+            </div>
+
+            <div class="faq-item">
+                <h2><i class="far fa-clock"></i> Сколько длится курс?</h2>
+                <p>Полный курс составляет 3 месяца интенсивного обучения с возможностью гибкого графика занятий. Также доступны ускоренные и расширенные программы по запросу.</p>
+            </div>
+
+            <div class="faq-item">
+                <h2><i class="fas fa-user-plus"></i> Нужен ли опыт для записи на курс?</h2>
+                <p>Курс разработан как для новичков без опыта, так и для тех, кто уже имеет базовые знания в организации мероприятий. Мы предлагаем индивидуальный подход к каждому студенту.</p>
+            </div>
+
+            <div class="faq-item">
+                <h2><i class="fas fa-book-open"></i> Какие темы охватывает курс?</h2>
+                <p>Программа включает: планирование свадеб, работу с клиентами, управление бюджетом, выбор площадки, оформление, координацию дня мероприятия, работу с подрядчиками и многое другое.</p>
+            </div>
+        </div>
+
+        <div class="question-form">
+            <h2><i class="far fa-paper-plane"></i> Не нашли ответ на свой вопрос?</h2>
+            <p>Задайте его нам, и мы ответим вам в течение 24 часов</p>
+            <form id="questionForm">
+                <textarea name="question" id="question" placeholder="Введите ваш вопрос..." required></textarea>
+                <button type="submit"><i class="fas fa-paper-plane"></i> Отправить вопрос</button>
+            </form>
+            <p id="message">Спасибо! Ваш вопрос отправлен!</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Создаем плавающие иконки
+            const floatingIcons = document.getElementById('floatingIcons');
+            const icons = ['fa-heart', 'fa-ring', 'fa-glass-cheers', 'fa-gem', 'fa-camera'];
+            
+            for (let i = 0; i < 15; i++) {
+                const icon = document.createElement('div');
+                icon.classList.add('floating-icon');
+                icon.innerHTML = `<i class="fas ${icons[Math.floor(Math.random() * icons.length)]}"></i>`;
+                icon.style.left = Math.random() * 100 + 'vw';
+                icon.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                icon.style.animationDelay = Math.random() * 5 + 's';
+                icon.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                floatingIcons.appendChild(icon);
+            }
+
+            // Анимация появления контейнера
+            document.querySelector('.container').classList.add('fade-in');
+
+            // Обработка формы
+            const form = document.getElementById('questionForm');
+            const message = document.getElementById('message');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Анимация отправки
+                form.style.opacity = '0.5';
+                form.style.pointerEvents = 'none';
+                
+                // Показываем сообщение
+                message.classList.add('show');
+                
+                // Через 3 секунды возвращаем форму в исходное состояние
+                setTimeout(() => {
+                    form.reset();
+                    form.style.opacity = '1';
+                    form.style.pointerEvents = 'auto';
+                    message.classList.remove('show');
+                }, 3000);
+            });
+
+            // Анимация появления FAQ-элементов
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                item.style.transform = 'translateY(20px)';
+            });
+            
+            setTimeout(() => {
+                faqItems.forEach(item => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форум и сообщества | Курсы свадебных организаторов</title>
+    
+
+</head>
+<style>
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5faff;
+    background-image: url('https://www.transparenttextures.com/patterns/soft-circle-scales.png');
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    color: #2c5fa8;
+    font-size: 2.8em;
+    margin-bottom: 15px;
+}
+
+.description {
+    color: #555;
+    font-size: 1.1em;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.communities {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.community-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.community-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(100, 149, 237, 0.2);
+}
+
+.community-header {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.community-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.community-card:hover .community-header img {
+    transform: scale(1.05);
+}
+
+.members-count {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    color: #555;
+    display: flex;
+    align-items: center;
+}
+
+.members-count img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.community-content {
+    padding: 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.community-card h2 {
+    color: #2c5fa8;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+.community-card p {
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.platform-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: auto;
+}
+
+.platform-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f0f6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.platform-icon:hover {
+    transform: scale(1.1);
+    background: #e0ecff;
+}
+
+.platform-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+@media (max-width: 768px) {
+    .communities {
+        grid-template-columns: 1fr;
+    }
+    
+    h1 {
+        font-size: 2.2em;
+    }
+    
+    .community-header {
+        height: 180px;
+    }
+}
+
+
+
+    .quiz-promo {
+        background: linear-gradient(135deg, #e6f2ff 0%, #cce0ff 100%);
+        border-radius: 15px;
+        padding: 30px;
+        margin-top: 50px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(100, 149, 237, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quiz-promo::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+        animation: pulse 6s infinite linear;
+    }
+
+    .quiz-message {
+        position: relative;
+        z-index: 1;
+    }
+
+    .quiz-message p {
+        font-size: 1.2em;
+        color: #2c5fa8;
+        margin-bottom: 10px;
+    }
+
+    .quiz-message h3 {
+        color: #1a3d7a;
+        font-size: 1.8em;
+        margin-bottom: 30px;
+    }
+
+    .arrow-down {
+        width: 40px;
+        height: 40px;
+        margin: 0 auto 20px;
+        position: relative;
+        animation: bounce 2s infinite;
+    }
+
+    .arrow-down::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232c5fa8"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>') no-repeat center;
+    }
+
+    .quiz-button {
+        display: inline-block;
+        background: #2c5fa8;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s;
+        box-shadow: 0 4px 10px rgba(44, 95, 168, 0.3);
+    }
+
+    .quiz-button:hover {
+        background: #1a3d7a;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(44, 95, 168, 0.4);
+    }
+
+    @keyframes pulse {
+        0% { transform: rotate(0deg); opacity: 0.5; }
+        50% { opacity: 0.2; }
+        100% { transform: rotate(360deg); opacity: 0.5; }
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-15px); }
+        60% { transform: translateY(-7px); }
+    }
+</style>
+<body>
+    <div class="container">
+        <header>
+            <h1>Наши сообщества</h1>
+            <p class="description">Присоединяйтесь к активному сообществу свадебных организаторов. Общайтесь, делитесь опытом и находите вдохновение.</p>
+        </header>
+        <div class="quiz-promo">
+            <div class="quiz-message">
+                <p>Хотите проверить свои знания в деле свадебного искусства?</p>
+                <h3>Пройдите викторину!</h3>
+                <div class="arrow-down"></div>
+                <a href="викторины.html" class="quiz-button">Выбор викторины</a>
+            </div>
+        </div>
+        <div class="communities">
+            <div class="community-card">
+                <div class="community-header">
+                    <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Профессиональное сообщество">
+                    <div class="members-count">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Люди">
+                        <span>1,245 участников</span>
+                    </div>
+                </div>
+                <div class="community-content">
+                    <h2>Профессиональный форум</h2>
+                    <p>Более 5000 организаторов делятся опытом и помогают друг другу в решении сложных задач.</p>
+                    <div class="platform-icons">
+                        <a href="https://t.me/weddingprocommunity" class="platform-icon" target="_blank">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
+                        </a>
+                        <a href="https://facebook.com/groups/weddingpros" class="platform-icon" target="_blank">
+                            <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="community-card">
+                <div class="community-header">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Креативные идеи">
+                    <div class="members-count">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Люди">
+                        <span>892 участника</span>
+                    </div>
+                </div>
+                <div class="community-content">
+                    <h2>Креативные идеи</h2>
+                    <p>Место для вдохновения и обсуждения самых необычных свадебных концепций.</p>
+                    <div class="platform-icons">
+                        <a href="https://facebook.com/groups/weddingcreatives" class="platform-icon" target="_blank">
+                            <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook">
+                        </a>
+                        <a href="https://instagram.com/weddingideas" class="platform-icon" target="_blank">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="community-card">
+                <div class="community-header">
+                    <img src="https://images.unsplash.com/photo-1545239351-ef35f43d514b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Бизнес вопросы">
+                    <div class="members-count">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Люди">
+                        <span>1,567 участников</span>
+                    </div>
+                </div>
+                <div class="community-content">
+                    <h2>Бизнес вопросы</h2>
+                    <p>Обсуждение маркетинга, ценообразования и других аспектов свадебного бизнеса.</p>
+                    <div class="platform-icons">
+                        <a href="https://vk.com/weddingbusiness" class="platform-icon" target="_blank">
+                            <img src="https://cdn-icons-png.flaticon.com/512/145/145813.png" alt="VK">
+                        </a>
+                        <a href="https://discord.gg/weddingpros" class="platform-icon" target="_blank">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

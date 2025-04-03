@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея работ студентов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007BFF;
+            --secondary-color: #00BFFF;
+            --text-color: #333;
+            --light-bg: #f5f9ff;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, var(--light-bg), #d0e6ff);
+            color: var(--text-color);
+            animation: fadeIn 1s ease-in;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .gallery-container {
+            padding: 20px;
+        }
+
+        .gallery-title {
+            text-align: center;
+            color: var(--primary-color);
+            margin: 30px 0 50px;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .gallery-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .students {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .student {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.4s, box-shadow 0.4s;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .student:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .student-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .student-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            animation: shine 3s infinite linear;
+        }
+
+        .student-name {
+            font-size: clamp(1.5rem, 3vw, 1.8rem);
+            margin: 15px 0 5px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .student-age {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .student-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .student-social a {
+            color: var(--white);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .student-social a:hover {
+            transform: translateY(-3px);
+            color: #ffeb3b;
+        }
+
+        .student-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid var(--white);
+            margin: 0 auto;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+        }
+
+        .student:hover .student-photo {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .student-works {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .work-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .work-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .work-photo {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .work-item:hover .work-photo {
+            transform: scale(1.05);
+        }
+
+        .work-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: var(--white);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .work-item:hover .work-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .work-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .work-description {
+            font-size: 0.9rem;
+            margin: 20px 0 0;
+            padding: 15px;
+            background: rgba(0, 123, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            grid-column: 1 / -1;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .student-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(30deg) translate(-30%, -30%); }
+            100% { transform: rotate(30deg) translate(30%, 30%); }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .students {
+                gap: 30px;
+            }
+            
+            .student-works {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .student {
+                max-width: 100%;
+            }
+            
+            .student-header {
+                padding: 20px;
+            }
+            
+            .student-photo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .work-photo {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .gallery-container {
+                padding: 10px;
+            }
+            
+            .student-works {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 20px;
+            }
+            
+            .work-photo {
+                height: 180px;
+            }
+            
+            .student-header {
+                padding: 15px;
+            }
+            
+            .student-name {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Дополнительные эффекты */
+        .student::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff8a00, #e52e71, #007BFF);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .student:hover::after {
+            opacity: 1;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="gallery-container">
+            <h1 class="gallery-title">Галерея работ студентов</h1>
+            
+            <div class="students">
+                <!-- Студент 1 -->
+                <div class="student">
+                    <div class="student-header">
+                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Анна Ковалева" class="student-photo">
+                        <h2 class="student-name">Анна Ковалева</h2>
+                        <p class="student-age">25 лет</p>
+                        <div class="student-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-behance"></i></a>
+                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                        </div>
+                        <div class="student-skills">
+                            <span class="skill-tag">Флористика</span>
+                            <span class="skill-tag">Декор</span>
+                            <span class="skill-tag">Организация</span>
+                        </div>
+                    </div>
+                    <div class="student-works">
+                        <div class="work-item">
+                            <img src="1 фотка 1 студента.webp" alt="Свадебная арка" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебная арка</h3>
+                                <p>Белая арка с розами и зеленью</p>
+                            </div>
+                        </div>
+                        <div class="work-item">
+                            <img src="2 фотка 1 студента.webp" alt="Свадебный стол" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебный стол</h3>
+                                <p>Элегантный стол с золотыми акцентами</p>
+                            </div>
+                        </div>
+                        <div class="work-item">
+                            <img src="3 фотка 1 студента.webp" alt="Свадебный букет" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебный букет</h3>
+                                <p>Букет невесты из белых пионов</p>
+                            </div>
+                        </div>
+                        <p class="work-description">Тема: "Классическая роскошь" (июнь 2023)</p>
+                    </div>
+                </div>
+                
+                <!-- Студент 2 -->
+                <div class="student">
+                    <div class="student-header">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Иван Петров" class="student-photo">
+                        <h2 class="student-name">Иван Петров</h2>
+                        <p class="student-age">28 лет</p>
+                        <div class="student-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-dribbble"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                        <div class="student-skills">
+                            <span class="skill-tag">Минимализм</span>
+                            <span class="skill-tag">Архитектура</span>
+                            <span class="skill-tag">Свет</span>
+                        </div>
+                    </div>
+                    <div class="student-works">
+                        <div class="work-item">
+                            <img src="1 фотка 2 студента.webp" alt="Свадебный декор" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебный декор</h3>
+                                <p>Чистые линии и простые формы</p>
+                            </div>
+                        </div>
+                        <div class="work-item">
+                            <img src="2 фотка 2 студента.jpg" alt="Свадебный торт" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебный торт</h3>
+                                <p>Геометрический дизайн торта</p>
+                            </div>
+                        </div>
+                        <div class="work-item">
+                            <img src="3 фотка 2 студента.jpg" alt="Свадебная церемония" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебная церемония</h3>
+                                <p>Минималистичная арка для церемонии</p>
+                            </div>
+                        </div>
+                        <p class="work-description">Тема: "Современный минимализм" (август 2023)</p>
+                    </div>
+                </div>
+                
+                <!-- Студент 3 -->
+                <div class="student">
+                    <div class="student-header">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Мария Смирнова" class="student-photo">
+                        <h2 class="student-name">Мария Смирнова</h2>
+                        <p class="student-age">23 года</p>
+                        <div class="student-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                        <div class="student-skills">
+                            <span class="skill-tag">Винтаж</span>
+                            <span class="skill-tag">Текстиль</span>
+                            <span class="skill-tag">Детали</span>
+                        </div>
+                    </div>
+                    <div class="student-works">
+                        <div class="work-item">
+                            <img src="1 фотка 3 студента.jpg" alt="Свадебный зал" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебный зал</h3>
+                                <p>Винтажные стулья и кружевные скатерти</p>
+                            </div>
+                        </div>
+                        <div class="work-item">
+                            <img src="2 фотка 3 студента.jpg" alt="Свадебная фотозона" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебная фотозона</h3>
+                                <p>Ретро-мебель и старые книги</p>
+                            </div>
+                        </div>
+                        <div class="work-item">
+                            <img src="3 фотка 3 студента.jpg" alt="Свадебный ужин" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебный ужин</h3>
+                                <p>Фарфоровая посуда и свечи</p>
+                            </div>
+                        </div>
+                        <p class="work-description">Тема: "Винтажная романтика" (май 2023)</p>
+                    </div>
+                </div>
+                
+                <!-- Студент 4 -->
+                <div class="student">
+                    <div class="student-header">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Дмитрий Иванов" class="student-photo">
+                        <h2 class="student-name">Дмитрий Иванов</h2>
+                        <p class="student-age">30 лет</p>
+                        <div class="student-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-vk"></i></a>
+                            <a href="#"><i class="fab fa-telegram"></i></a>
+                        </div>
+                        <div class="student-skills">
+                            <span class="skill-tag">Зима</span>
+                            <span class="skill-tag">Хрусталь</span>
+                            <span class="skill-tag">Мороз</span>
+                        </div>
+                    </div>
+                    <div class="student-works">
+                        <div class="work-item">
+                            <img src="1 фотка 4 студента.jpg" alt="Свадебная арка с цветами" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебная арка</h3>
+                                <p>Ледяные кристаллы и белые розы</p>
+                            </div>
+                        </div>
+                        <div class="work-item">
+                            <img src="2 фотка 4 студента.jpg" alt="Свадебный стол с декором" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебный стол</h3>
+                                <p>Серебряные подсвечники и голубые акценты</p>
+                            </div>
+                        </div>
+                        <div class="work-item">
+                            <img src="3 фотка 4 студента.jpg" alt="Свадебный букет" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебный букет</h3>
+                                <p>Белые цветы с серебристыми элементами</p>
+                            </div>
+                        </div>
+                        <p class="work-description">Тема: "Зимняя сказка" (декабрь 2023)</p>
+                    </div>
+                </div>
+                
+                <!-- Студент 5 -->
+                <div class="student">
+                    <div class="student-header">
+                        <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Елена Сидорова" class="student-photo">
+                        <h2 class="student-name">Елена Сидорова</h2>
+                        <p class="student-age">27 лет</p>
+                        <div class="student-social">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                        <div class="student-skills">
+                            <span class="skill-tag">Море</span>
+                            <span class="skill-tag">Текстуры</span>
+                            <span class="skill-tag">Синий</span>
+                        </div>
+                    </div>
+                    <div class="student-works">
+                        <div class="work-item">
+                            <img src="1 фотка 5 студента.jpg" alt="Свадебная арка с белыми цветами" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебная арка</h3>
+                                <p>Белые ткани с голубыми акцентами</p>
+                            </div>
+                        </div>
+                        <div class="work-item">
+                            <img src="2 фотка 5 студента.jpg" alt="Свадебный стол с розовыми акцентами" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебный стол</h3>
+                                <p>Морские ракушки и песочные оттенки</p>
+                            </div>
+                        </div>
+                        <div class="work-item">
+                            <img src="3 фотка 5 студента.jpg" alt="Свадебный ужин при свечах" class="work-photo">
+                            <div class="work-overlay">
+                                <h3 class="work-title">Свадебный ужин</h3>
+                                <p>Свечи в стеклянных подсвечниках</p>
+                            </div>
+                        </div>
+                        <p class="work-description">Тема: "Морской бриз" (июль 2023)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Кнопка "Наверх"
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Анимация при прокрутке
+        const animateOnScroll = () => {
+            const students = document.querySelectorAll('.student');
+            
+            students.forEach(student => {
+                const studentPosition = student.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (studentPosition < screenPosition) {
+                    student.style.opacity = '1';
+                    student.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        // Инициализация
+        window.addEventListener('load', () => {
+            const students = document.querySelectorAll('.student');
+            students.forEach((student, index) => {
+                student.style.opacity = '0';
+                student.style.transform = 'translateY(20px)';
+                student.style.transition = `all 0.5s ease ${index * 0.1}s`;
+            });
+            
+            animateOnScroll();
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+    </script>
+</body>
+</html>

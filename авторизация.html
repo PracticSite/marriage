@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Авторизация студента | Курсы свадебных организаторов</title>
+    <style>
+      /* Основные стили */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+          background: linear-gradient(135deg, #f0f9ff, #cce6ff);
+          min-height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          animation: fadeIn 1s ease-in-out;
+          padding: 20px;
+      }
+
+      .container {
+          width: 100%;
+          max-width: 500px;
+          padding: 15px;
+          position: relative;
+      }
+
+      /* Карточка авторизации */
+      .auth-card {
+          background: rgba(255, 255, 255, 0.95);
+          border-radius: 20px;
+          box-shadow: 0 10px 30px rgba(100, 149, 237, 0.2);
+          padding: 40px;
+          text-align: center;
+          transition: all 0.3s ease;
+          position: relative;
+      }
+
+      .auth-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 15px 35px rgba(100, 149, 237, 0.3);
+      }
+
+      /* Кнопка регистрации */
+      .register-btn {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          background: transparent;
+          color: #6495ed;
+          border: 1px solid #6495ed;
+          padding: 8px 15px;
+          border-radius: 20px;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s;
+          text-decoration: none;
+          white-space: nowrap;
+      }
+
+      .register-btn:hover {
+          background: rgba(100, 149, 237, 0.1);
+      }
+
+      /* Заголовок */
+      h1 {
+          color: #6495ed;
+          margin-bottom: 30px;
+          font-weight: 600;
+          font-size: 28px;
+          position: relative;
+      }
+
+      h1::after {
+          content: '';
+          display: block;
+          width: 60px;
+          height: 3px;
+          background: #6495ed;
+          margin: 15px auto 0;
+          border-radius: 3px;
+      }
+
+      /* Форма */
+      .form-group {
+          margin-bottom: 25px;
+          text-align: left;
+      }
+
+      label {
+          display: block;
+          margin-bottom: 8px;
+          color: #6495ed;
+          font-weight: 500;
+          font-size: 14px;
+      }
+
+      input {
+          width: 100%;
+          padding: 15px;
+          border: 2px solid #cce6ff;
+          border-radius: 10px;
+          font-size: 16px;
+          transition: all 0.3s;
+          background-color: #f5fbff;
+      }
+
+      input::placeholder {
+          color: #aaa;
+      }
+
+      input:focus {
+          outline: none;
+          border-color: #6495ed;
+          box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.2);
+      }
+
+      /* Кнопка */
+      .btn {
+          background: linear-gradient(135deg, #6495ed, #7eb0ff);
+          color: white;
+          border: none;
+          padding: 15px 30px;
+          border-radius: 50px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s;
+          width: 100%;
+          margin-top: 20px;
+          box-shadow: 0 4px 15px rgba(100, 149, 237, 0.3);
+      }
+
+      .btn:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 6px 20px rgba(100, 149, 237, 0.4);
+          background: linear-gradient(135deg, #5a86d4, #6ca0e6);
+      }
+
+      .btn:active {
+          transform: translateY(1px);
+      }
+
+      /* Иконка */
+      .flower-icon {
+          width: 80px;
+          margin-bottom: 20px;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+
+      /* Анимации */
+      @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+      }
+
+      /* Сообщение об успешной регистрации */
+      .reg-success-message {
+          position: fixed;
+          top: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: linear-gradient(135deg, #4CAF50, #66BB6A);
+          color: white;
+          padding: 20px 40px;
+          border-radius: 50px;
+          box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+          z-index: 1000;
+          font-weight: 500;
+          text-align: center;
+          display: none;
+          animation: slideIn 0.5s ease-out;
+          max-width: 90%;
+      }
+
+      @keyframes slideIn {
+          from {
+              opacity: 0;
+              transform: translate(-50%, -100px);
+          }
+          to {
+              opacity: 1;
+              transform: translate(-50%, 0);
+          }
+      }
+
+      /* Адаптивность */
+      /* Планшеты и небольшие ноутбуки */
+      @media (max-width: 992px) {
+          .auth-card {
+              padding: 35px 30px;
+          }
+          
+          h1 {
+              font-size: 26px;
+          }
+          
+          .flower-icon {
+              width: 70px;
+          }
+      }
+
+      /* Большие мобильные устройства */
+      @media (max-width: 768px) {
+          .auth-card {
+              padding: 30px 25px;
+          }
+          
+          h1 {
+              font-size: 24px;
+              margin-bottom: 25px;
+          }
+          
+          input {
+              padding: 14px;
+          }
+          
+          .btn {
+              padding: 14px;
+          }
+          
+          .register-btn {
+              padding: 7px 12px;
+              font-size: 13px;
+          }
+          
+          .flower-icon {
+              width: 65px;
+          }
+      }
+
+      /* Средние мобильные устройства */
+      @media (max-width: 576px) {
+          body {
+              padding: 15px;
+          }
+          
+          .container {
+              padding: 10px;
+          }
+          
+          .auth-card {
+              padding: 25px 20px;
+              border-radius: 15px;
+          }
+          
+          h1 {
+              font-size: 22px;
+              margin-bottom: 20px;
+          }
+          
+          h1::after {
+              width: 50px;
+              height: 2px;
+              margin: 10px auto 0;
+          }
+          
+          input {
+              padding: 12px;
+              font-size: 15px;
+          }
+          
+          .btn {
+              padding: 12px;
+              font-size: 15px;
+              margin-top: 15px;
+          }
+          
+          .form-group {
+              margin-bottom: 20px;
+          }
+          
+          .register-btn {
+              top: 10px;
+              right: 10px;
+              padding: 6px 10px;
+              font-size: 12px;
+          }
+          
+          .flower-icon {
+              width: 60px;
+              margin-bottom: 15px;
+          }
+          
+          .reg-success-message {
+              padding: 15px 25px;
+              font-size: 14px;
+          }
+      }
+
+      /* Маленькие мобильные устройства */
+      @media (max-width: 400px) {
+          .auth-card {
+              padding: 20px 15px;
+          }
+          
+          h1 {
+              font-size: 20px;
+          }
+          
+          input {
+              padding: 10px;
+              font-size: 14px;
+          }
+          
+          .btn {
+              padding: 10px;
+              font-size: 14px;
+          }
+          
+          .register-btn {
+              padding: 5px 8px;
+              font-size: 11px;
+          }
+          
+          .flower-icon {
+              width: 55px;
+          }
+          
+          label {
+              font-size: 13px;
+              margin-bottom: 6px;
+          }
+      }
+
+      /* Очень маленькие устройства (например, iPhone 5/SE) */
+      @media (max-width: 320px) {
+          h1 {
+              font-size: 18px;
+          }
+          
+          .auth-card {
+              padding: 15px 10px;
+          }
+          
+          .register-btn {
+              padding: 4px 6px;
+              font-size: 10px;
+          }
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="auth-card">
+            <a href="регистрация.html" class="register-btn">Регистрация</a>
+            <img src="https://cdn-icons-png.flaticon.com/512/3043/3043163.png" alt="Букет цветов" class="flower-icon">
+            <h1>Авторизация студента</h1>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Логин</label>
+                    <input type="text" id="username" name="username" 
+                           placeholder="" 
+                           maxlength="10" 
+                           pattern="[A-Za-z]+" 
+                           title="Только латинские буквы" 
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" 
+                           placeholder="" 
+                           maxlength="8" 
+                           pattern="[A-Za-z0-9]+" 
+                           title="Только латинские буквы и цифры" 
+                           required>
+                </div>
+                
+                <button type="submit" class="btn">Авторизоваться</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="reg-success-message" id="regSuccessMessage">
+        Поздравляем! Вы зарегистрированы и можете авторизоваться!
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!/^[A-Za-z]+$/.test(username)) {
+                alert('Логин должен содержать только латинские буквы');
+                return;
+            }
+            
+            if (!/^[A-Za-z0-9]+$/.test(password)) {
+                alert('Пароль должен содержать только латинские буквы и цифры');
+                return;
+            }
+            
+            localStorage.setItem('showAuthSuccess', 'true');
+            window.location.href = 'sait.html?auth=true';
+        });
+
+        // Показать сообщение о успешной регистрации
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('registrationSuccess') === 'true') {
+                const message = document.getElementById('regSuccessMessage');
+                message.style.display = 'block';
+                
+                // Удалить флаг после показа
+                localStorage.removeItem('registrationSuccess');
+                
+                // Автоматически скрыть через 5 секунд
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 5000);
+            }
+        });
+      
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (!username || !password) {
+                alert('Заполните все поля!');
+                return;
+            }
+            
+            // Здесь должна быть реальная проверка логина/пароля
+            // Для примера просто сохраняем авторизацию
+            localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('username', username);
+            
+            // Возвращаем на главную с сообщением
+            sessionStorage.setItem('showAuthSuccess', 'true');
+            window.location.href = 'sait.html';
+        });
+    </script>
+</body>
+</html>

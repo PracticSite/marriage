@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | Курсы свадебных организаторов</title>
+   <style>
+    /* Основные стили */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f0f9ff, #cce6ff);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    position: relative;
+}
+
+/* Карточка регистрации */
+.reg-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(100, 149, 237, 0.2);
+    padding: 40px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.reg-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(100, 149, 237, 0.3);
+}
+
+/* Кнопка возврата */
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: transparent;
+    color: #6495ed;
+    border: 1px solid #6495ed;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    background: rgba(100, 149, 237, 0.1);
+}
+
+/* Заголовок */
+h1 {
+    color: #6495ed;
+    margin-bottom: 30px;
+    font-weight: 600;
+    font-size: 28px;
+    position: relative;
+}
+
+h1::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #6495ed;
+    margin: 15px auto 0;
+    border-radius: 3px;
+}
+
+/* Форма */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #6495ed;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #cce6ff;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s;
+    background-color: #f5fbff;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+input:focus {
+    outline: none;
+    border-color: #6495ed;
+    box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.2);
+}
+
+/* Кнопка */
+.btn {
+    background: linear-gradient(135deg, #6495ed, #7eb0ff);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(100, 149, 237, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(100, 149, 237, 0.4);
+    background: linear-gradient(135deg, #5a86d4, #6ca0e6);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* Иконка */
+.flower-icon {
+    width: 80px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Сообщение об ошибке */
+.error-message {
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .reg-card {
+        padding: 30px 20px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    input {
+        padding: 12px;
+    }
+    
+    .btn {
+        padding: 12px;
+    }
+    
+    .back-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}
+   </style>
+</head>
+<body>
+    <div class="container">
+        <div class="reg-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3043/3043163.png" alt="Букет цветов" class="flower-icon">
+            <h1>Регистрация</h1>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="username">Логин</label>
+                    <input type="text" id="username" name="username" 
+                           placeholder="Придумайте логин" 
+                           maxlength="10" 
+                           pattern="[A-Za-z]+" 
+                           title="Только латинские буквы" 
+                           required>
+                    <div class="error-message" id="username-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username-repeat">Повторите логин</label>
+                    <input type="text" id="username-repeat" name="username-repeat" 
+                           placeholder="Повторите логин" 
+                           maxlength="10" 
+                           required>
+                    <div class="error-message" id="username-repeat-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" 
+                           placeholder="Придумайте пароль" 
+                           maxlength="8" 
+                           pattern="[A-Za-z0-9]+" 
+                           title="Только латинские буквы и цифры" 
+                           required>
+                    <div class="error-message" id="password-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password-repeat">Повторите пароль</label>
+                    <input type="password" id="password-repeat" name="password-repeat" 
+                           placeholder="Повторите пароль" 
+                           maxlength="8" 
+                           required>
+                    <div class="error-message" id="password-repeat-error"></div>
+                </div>
+                
+                <button type="submit" class="btn">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const usernameRepeat = document.getElementById('username-repeat').value;
+            const password = document.getElementById('password').value;
+            const passwordRepeat = document.getElementById('password-repeat').value;
+            
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            let isValid = true;
+            
+            if (!/^[A-Za-z]+$/.test(username)) {
+                document.getElementById('username-error').textContent = 'Только латинские буквы';
+                document.getElementById('username-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (username !== usernameRepeat) {
+                document.getElementById('username-repeat-error').textContent = 'Логины не совпадают';
+                document.getElementById('username-repeat-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!/^[A-Za-z0-9]+$/.test(password)) {
+                document.getElementById('password-error').textContent = 'Только латинские буквы и цифры';
+                document.getElementById('password-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (password !== passwordRepeat) {
+                document.getElementById('password-repeat-error').textContent = 'Пароли не совпадают';
+                document.getElementById('password-repeat-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                localStorage.setItem('registrationSuccess', 'true');
+                window.location.href = 'авторизация.html';
+            }
+        });
+    </script>
+</body>
+</html>

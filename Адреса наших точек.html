@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адреса наших точек в Санкт-Петербурге</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --light-blue: #e1f0fa;
+            --dark-blue: #2c3e50;
+            --accent-color: #1abc9c;
+            --text-color: #333;
+            --light-text: #fff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', 'Arial', sans-serif;
+            background-color: #f5f9fc;
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--dark-blue);
+            margin-bottom: 40px;
+            font-size: 2.8rem;
+            position: relative;
+            padding-bottom: 15px;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 600px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+            border: 3px solid var(--light-text);
+            margin-bottom: 30px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .address-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+            margin: 30px 0 20px;
+            font-weight: 600;
+        }
+
+        .address-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            list-style-type: none;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .address-item {
+            background: var(--light-text);
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            font-size: 1.1rem;
+            color: var(--dark-blue);
+            font-weight: 500;
+            position: relative;
+            flex: 1 1 300px;
+            max-width: 400px;
+            border-left: 5px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .address-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .address-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--primary-color);
+            color: var(--light-text);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 15px;
+            font-weight: 600;
+        }
+
+        /* Стили для маркеров на карте */
+        .map-marker {
+            background-color: var(--primary-color);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 3px solid var(--light-text);
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .map-marker::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--light-text);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Декоративные элементы */
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: rgba(52, 152, 219, 0.1);
+            font-size: 15rem;
+            font-weight: 900;
+            z-index: -1;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+                margin-bottom: 30px;
+            }
+
+            .map-container {
+                height: 400px;
+            }
+
+            .address-item {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark">SPB</div>
+    
+    <div class="container">
+        <h1>Наши салоны в Санкт-Петербурге</h1>
+        
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        
+        <h2 class="address-title">Список наших адресов</h2>
+        <ul class="address-list">
+            <li class="address-item">
+                <span class="address-number">1</span>
+                <span class="address-text">ул. Рубинштейна, 24</span>
+            </li>
+            <li class="address-item">
+                <span class="address-number">2</span>
+                <span class="address-text">пр. Литейный, 43</span>
+            </li>
+            <li class="address-item">
+                <span class="address-number">3</span>
+                <span class="address-text">ул. Гражданская, 22</span>
+            </li>
+            <li class="address-item">
+                <span class="address-number">4</span>
+                <span class="address-text">ул. Пушкина, 10</span>
+            </li>
+            <li class="address-item">
+                <span class="address-number">5</span>
+                <span class="address-text">пр. Невский, 56</span>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация карты
+            const map = L.map('map').setView([59.9343, 30.3351], 13);
+            
+            // Добавляем слой карты
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Координаты адресов
+            const addresses = [
+                { lat: 59.9343, lng: 30.3351, text: 'ул. Рубинштейна, 24' },
+                { lat: 59.9358, lng: 30.3496, text: 'пр. Литейный, 43' },
+                { lat: 59.9296, lng: 30.3609, text: 'ул. Гражданская, 22' },
+                { lat: 59.9375, lng: 30.3086, text: 'ул. Пушкина, 10' },
+                { lat: 59.9358, lng: 30.3259, text: 'пр. Невский, 56' }
+            ];
+
+            // Создаем маркеры
+            addresses.forEach((address, index) => {
+                L.marker([address.lat, address.lng], {
+                    icon: L.divIcon({
+                        className: 'map-marker-icon',
+                        html: `<div class="map-marker"></div>`,
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 24]
+                    })
+                }).addTo(map);
+            });
+        });
+    </script>
+</body>
+</html>

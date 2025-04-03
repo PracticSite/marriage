@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Викторины для свадебных организаторов</title>
+    <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-color: #f5faff;
+        background-image: url('https://www.transparenttextures.com/patterns/soft-circle-scales.png');
+        min-height: 100vh;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 15px;
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 0 10px;
+    }
+
+    h1 {
+        color: #2c5fa8;
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        line-height: 1.3;
+    }
+
+    .description {
+        color: #555;
+        font-size: 1.1em;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .quizzes {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+
+    .quiz-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .quiz-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, #2c5fa8, #5d9cec);
+    }
+
+    .quiz-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(100, 149, 237, 0.2);
+    }
+
+    .quiz-header {
+        position: relative;
+        height: 180px;
+        overflow: hidden;
+    }
+
+    .quiz-header img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .quiz-card:hover .quiz-header img {
+        transform: scale(1.05);
+    }
+
+    .quiz-content {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .quiz-card h2 {
+        color: #2c5fa8;
+        margin-bottom: 12px;
+        font-size: 1.3em;
+    }
+
+    .quiz-card p {
+        color: #555;
+        margin-bottom: 18px;
+        flex: 1;
+        font-size: 0.95em;
+    }
+
+    .quiz-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #2c5fa8 0%, #5d9cec 100%);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(44, 95, 168, 0.3);
+        border: none;
+        cursor: pointer;
+        font-size: 0.95em;
+        margin-top: auto;
+    }
+
+    .quiz-button:hover {
+        background: linear-gradient(135deg, #1a3d7a 0%, #2c5fa8 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(44, 95, 168, 0.4);
+    }
+
+    .difficulty {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 0.75em;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .easy {
+        background-color: #e6f9f0;
+        color: #2ecc71;
+    }
+
+    .medium {
+        background-color: #fff8e6;
+        color: #f39c12;
+    }
+
+    .hard {
+        background-color: #ffe6e6;
+        color: #e74c3c;
+    }
+
+    .questions-count {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8em;
+        color: #555;
+        display: flex;
+        align-items: center;
+    }
+
+    .questions-count img {
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .floating-icon {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    /* Медиазапросы для адаптивности */
+    
+    /* Планшеты в портретной ориентации */
+    @media (max-width: 900px) {
+        .container {
+            padding: 25px 15px;
+        }
+        
+        h1 {
+            font-size: 2.2em;
+        }
+        
+        .description {
+            font-size: 1em;
+        }
+        
+        .quiz-header {
+            height: 160px;
+        }
+        
+        .quiz-content {
+            padding: 18px;
+        }
+    }
+    
+    /* Планшеты в альбомной ориентации и большие телефоны */
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2em;
+        }
+        
+        .quizzes {
+            gap: 20px;
+        }
+        
+        .quiz-card h2 {
+            font-size: 1.2em;
+        }
+    }
+    
+    /* Средние телефоны */
+    @media (max-width: 600px) {
+        .container {
+            padding: 20px 10px;
+        }
+        
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 12px;
+        }
+        
+        .description {
+            font-size: 0.95em;
+        }
+        
+        .quizzes {
+            grid-template-columns: 1fr;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .quiz-header {
+            height: 200px;
+        }
+    }
+    
+    /* Маленькие телефоны */
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.6em;
+        }
+        
+        header {
+            margin-bottom: 20px;
+        }
+        
+        .quiz-header {
+            height: 170px;
+        }
+        
+        .quiz-content {
+            padding: 15px;
+        }
+        
+        .quiz-button {
+            padding: 10px 15px;
+            font-size: 0.9em;
+        }
+    }
+    
+    /* Очень маленькие телефоны */
+    @media (max-width: 360px) {
+        h1 {
+            font-size: 1.5em;
+        }
+        
+        .quiz-header {
+            height: 150px;
+        }
+        
+        .quiz-card h2 {
+            font-size: 1.1em;
+        }
+        
+        .quiz-card p {
+            font-size: 0.9em;
+        }
+        
+        .difficulty {
+            font-size: 0.7em;
+        }
+        
+        .questions-count {
+            font-size: 0.75em;
+            padding: 4px 8px;
+        }
+        
+        .questions-count img {
+            width: 14px;
+            height: 14px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Викторины для свадебных организаторов</h1>
+            <p class="description">Проверьте свои знания и узнайте что-то новое в увлекательной форме!</p>
+        </header>
+
+        <div class="quizzes">
+            <!-- Викторина 1 -->
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Основы свадебного планирования">
+                    <div class="questions-count">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Вопросы">
+                        <span>15 вопросов</span>
+                    </div>
+                </div>
+                <div class="quiz-content">
+                    <span class="difficulty easy">Лёгкий</span>
+                    <h2>Основы свадебного планирования</h2>
+                    <p>Проверьте свои базовые знания о свадебной организации и планировании мероприятий.</p>
+                    <a href="тест1.html" class="quiz-button">Прохождение тестирования</a>
+                </div>
+            </div>
+            
+            <!-- Викторина 2 -->
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Бюджетирование и финансы">
+                    <div class="questions-count">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Вопросы">
+                        <span>20 вопросов</span>
+                    </div>
+                </div>
+                <div class="quiz-content">
+                    <span class="difficulty medium">Средний</span>
+                    <h2>Бюджетирование и финансы</h2>
+                    <p>Тест на знание финансовых аспектов свадебного бизнеса и управления бюджетом.</p>
+                    <a href="тест2.html" class="quiz-button floating-icon">Прохождение тестирования</a>
+                </div>
+            </div>
+            
+            <!-- Викторина 3 -->
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Креативные решения">
+                    <div class="questions-count">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Вопросы">
+                        <span>25 вопросов</span>
+                    </div>
+                </div>
+                <div class="quiz-content">
+                    <span class="difficulty hard">Сложный</span>
+                    <h2>Креативные решения</h2>
+                    <p>Сможете ли вы найти нестандартные решения для сложных свадебных сценариев?</p>
+                    <a href="тест3.html" class="quiz-button">Прохождение тестирования</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

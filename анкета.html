@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Анкета для курсов свадебных организаторов</title>
+    <style>
+        :root {
+            --primary-blue: #3498db;
+            --secondary-blue: #2980b9;
+            --light-blue: #e1f0fa;
+            --dark-blue: #2c3e50;
+            --accent-teal: #1abc9c;
+            --text-color: #333;
+            --light-text: #fff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--light-blue), #f5f9fc);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(20px);
+            animation: slideUp 0.8s ease-out forwards;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
+        @keyframes slideUp {
+            to { transform: translateY(0); }
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-blue), var(--accent-teal));
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--dark-blue);
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+            font-weight: 600;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal));
+            border-radius: 2px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-blue);
+            font-size: 1rem;
+        }
+
+        label i {
+            margin-right: 8px;
+            color: var(--primary-blue);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(52, 152, 219, 0.3);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--light-blue);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background-color: white;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
+            background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button i {
+            margin-right: 10px;
+        }
+
+        #message {
+            text-align: center;
+            color: var(--accent-teal);
+            font-weight: 600;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(26, 188, 156, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        #message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Декоративные элементы */
+        .floating-icons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-icon {
+            position: absolute;
+            color: rgba(52, 152, 219, 0.1);
+            font-size: 24px;
+            animation: float 15s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Адаптивность */
+        /* Планшеты и небольшие ноутбуки */
+        @media (max-width: 992px) {
+            .form-container {
+                padding: 35px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            input, select {
+                padding: 14px;
+            }
+            
+            button {
+                padding: 15px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Планшеты в альбомной ориентации */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 25px;
+            }
+            
+            form {
+                gap: 18px;
+            }
+            
+            #message {
+                margin-top: 15px;
+                padding: 12px;
+            }
+        }
+
+        /* Большие мобильные устройства */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            .form-container {
+                padding: 25px;
+                border-radius: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+                padding-bottom: 10px;
+            }
+            
+            h1::after {
+                width: 60px;
+                height: 3px;
+            }
+            
+            label {
+                font-size: 0.95rem;
+            }
+            
+            input, select {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+            
+            button {
+                padding: 14px;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Средние мобильные устройства */
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+            
+            form {
+                gap: 15px;
+            }
+            
+            label {
+                font-size: 0.9rem;
+                margin-bottom: 6px;
+            }
+            
+            input, select {
+                padding: 11px;
+                font-size: 0.9rem;
+            }
+            
+            button {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            #message {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
+
+        /* Маленькие мобильные устройства */
+        @media (max-width: 360px) {
+            .form-container {
+                padding: 18px 15px;
+            }
+            
+            h1 {
+                font-size: 1.4rem;
+            }
+            
+            label i {
+                margin-right: 6px;
+            }
+            
+            button i {
+                margin-right: 8px;
+            }
+        }
+
+        /* Очень маленькие устройства */
+        @media (max-width: 320px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            input, select {
+                padding: 10px;
+            }
+            
+            button {
+                padding: 11px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-icons" id="floatingIcons"></div>
+    
+    <div class="form-container">
+        <h1><i class="fas fa-file-alt"></i> Анкета</h1>
+        <form id="applicationForm">
+            <div class="form-group">
+                <label for="name"><i class="fas fa-user"></i> Имя:</label>
+                <input type="text" id="name" required pattern="[А-Яа-яЁёA-Za-z]{2,50}" 
+                       title="Только буквы, от 2 до 50 символов" placeholder="Введите ваше имя">
+            </div>
+
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope"></i> Почта:</label>
+                <input type="email" id="email" required placeholder="example@mail.com">
+            </div>
+
+            <div class="form-group">
+                <label for="phone"><i class="fas fa-phone"></i> Номер телефона:</label>
+                <input type="tel" id="phone" required maxlength="12" 
+                       title="Введите корректный номер телефона" placeholder="+7XXXXXXXXXX">
+            </div>
+
+            <div class="form-group">
+                <label for="gender"><i class="fas fa-venus-mars"></i> Пол:</label>
+                <select id="gender" required>
+                    <option value="" disabled selected>Выберите пол</option>
+                    <option value="male">Мужской</option>
+                    <option value="female">Женский</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="budget"><i class="fas fa-wallet"></i> Финансовая допустимость:</label>
+                <select id="budget" required>
+                    <option value="" disabled selected>Выберите бюджет</option>
+                    <option value="15000">До 15000 рублей</option>
+                    <option value="30000">До 30000 рублей</option>
+                    <option value="40000">До 40000 рублей</option>
+                </select>
+            </div>
+
+            <button type="submit"><i class="fas fa-paper-plane"></i> Отправить заявку</button>
+        </form>
+        <p id="message">Поздравляем, вы оставили заявку, в скором времени с вами свяжется оператор.</p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Создаем плавающие иконки
+            const floatingIcons = document.getElementById('floatingIcons');
+            const icons = ['fa-heart', 'fa-ring', 'fa-glass-cheers', 'fa-gem', 'fa-camera'];
+            
+            for (let i = 0; i < 15; i++) {
+                const icon = document.createElement('div');
+                icon.classList.add('floating-icon');
+                icon.innerHTML = `<i class="fas ${icons[Math.floor(Math.random() * icons.length)]}"></i>`;
+                icon.style.left = Math.random() * 100 + 'vw';
+                icon.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                icon.style.animationDelay = Math.random() * 5 + 's';
+                icon.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                floatingIcons.appendChild(icon);
+            }
+
+            let phoneInput = document.getElementById("phone");
+
+            // Автоматическое добавление +7, если поле пустое
+            phoneInput.addEventListener("focus", function () {
+                if (phoneInput.value === "") {
+                    phoneInput.value = "+7";
+                }
+            });
+
+            // Запрет удаления +7 и ограничение ввода только цифрами
+            phoneInput.addEventListener("input", function () {
+                if (!phoneInput.value.startsWith("+7")) {
+                    phoneInput.value = "+7";
+                }
+
+                // Убираем все нецифровые символы, кроме +7
+                phoneInput.value = "+7" + phoneInput.value.slice(2).replace(/\D/g, "");
+
+                // Ограничение длины до 12 символов (+7 и 10 цифр)
+                if (phoneInput.value.length > 12) {
+                    phoneInput.value = phoneInput.value.slice(0, 12);
+                }
+            });
+
+            // Валидация и отправка формы
+            document.getElementById('applicationForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                let name = document.getElementById('name').value.trim();
+                let email = document.getElementById('email').value.trim();
+                let phone = document.getElementById('phone').value.trim();
+                let gender = document.getElementById('gender').value;
+                let budget = document.getElementById('budget').value;
+
+                // Проверка имени
+                let nameRegex = /^[А-Яа-яЁёA-Za-z]{2,50}$/;
+                if (!nameRegex.test(name)) {
+                    alert('Имя должно содержать только буквы и быть от 2 до 50 символов.');
+                    return;
+                }
+
+                // Проверка email
+                let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailRegex.test(email)) {
+                    alert('Введите корректный email.');
+                    return;
+                }
+
+                // Проверка номера телефона (должно быть ровно 12 символов)
+                if (phone.length !== 12) {
+                    alert('Введите полный номер телефона (10 цифр после +7).');
+                    return;
+                }
+
+                // Проверка выбора пола
+                if (!gender) {
+                    alert('Пожалуйста, укажите ваш пол.');
+                    return;
+                }
+
+                // Проверка выбора бюджета
+                if (!budget) {
+                    alert('Пожалуйста, укажите ваш бюджет.');
+                    return;
+                }
+
+                // Показываем сообщение об успехе
+                document.getElementById('message').classList.add('show');
+                
+                // Сбрасываем форму через 3 секунды
+                setTimeout(() => {
+                    document.getElementById('applicationForm').reset();
+                    phoneInput.value = "+7";
+                    document.getElementById('message').classList.remove('show');
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>

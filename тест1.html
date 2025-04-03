@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основы свадебного планирования | Тест</title>
+    
+</head>
+<style>
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f8ff;
+    background-image: linear-gradient(to bottom, #e6f2ff, #f5faff);
+    min-height: 100vh;
+    color: #2c3e50;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.quiz-header {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.quiz-header h1 {
+    color: #2c5fa8;
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.quiz-header h1::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, #2c5fa8, #5d9cec);
+    border-radius: 3px;
+}
+
+.progress-container {
+    width: 100%;
+    height: 10px;
+    background-color: #e0ecff;
+    border-radius: 5px;
+    margin: 30px 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #5d9cec, #2c5fa8);
+    border-radius: 5px;
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+.question-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(100, 149, 237, 0.15);
+    margin-bottom: 30px;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.question-text {
+    font-size: 1.3em;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.options-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.option {
+    background: #f5faff;
+    border: 2px solid #d6e6ff;
+    border-radius: 10px;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.option:hover {
+    background: #e6f2ff;
+    border-color: #a8c6ff;
+}
+
+.option.selected {
+    background: #d6e6ff;
+    border-color: #2c5fa8;
+    box-shadow: 0 0 0 3px rgba(44, 95, 168, 0.2);
+}
+
+.option input {
+    margin-right: 15px;
+    transform: scale(1.2);
+}
+
+.next-btn {
+    display: block;
+    margin: 30px auto 0;
+    background: linear-gradient(135deg, #2c5fa8, #5d9cec);
+    color: white;
+    padding: 12px 35px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(44, 95, 168, 0.3);
+}
+
+.next-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(44, 95, 168, 0.4);
+}
+
+.next-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.question-counter {
+    color: #5d9cec;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.emoji-feedback {
+    font-size: 2em;
+    text-align: center;
+    margin: 20px 0;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s;
+}
+
+.emoji-feedback.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px 15px;
+    }
+    
+    .question-card {
+        padding: 20px 15px;
+    }
+    
+    .question-text {
+        font-size: 1.1em;
+    }
+}
+</style>
+<body>
+    <div class="container">
+        <div class="quiz-header">
+            <h1>Основы свадебного планирования</h1>
+            <p>Проверьте свои базовые знания о свадебной организации</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+
+        <div class="question-counter">Вопрос 1 из 15</div>
+
+        <div class="question-card">
+            <div class="question-text" id="question">Какой первый шаг в планировании свадьбы?</div>
+            
+            <div class="emoji-feedback" id="emoji-feedback"></div>
+            
+            <div class="options-container" id="options">
+                <label class="option">
+                    <input type="radio" name="answer" value="A">
+                    <span>Выбор платья невесты</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="B">
+                    <span>Определение бюджета</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="C">
+                    <span>Бронирование ресторана</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="D">
+                    <span>Выбор даты</span>
+                </label>
+            </div>
+
+            <button class="next-btn" id="next-btn" disabled>Следующий вопрос</button>
+        </div>
+    </div>
+
+    <script>
+        // Здесь будет JavaScript для работы теста
+        document.addEventListener('DOMContentLoaded', function() {
+            const options = document.querySelectorAll('.option');
+            const nextBtn = document.getElementById('next-btn');
+            const emojiFeedback = document.getElementById('emoji-feedback');
+            
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    nextBtn.disabled = false;
+                    
+                    // Пример обратной связи
+                    emojiFeedback.textContent = '🤔';
+                    emojiFeedback.classList.add('show');
+                });
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                // Анимация перехода к следующему вопросу
+                emojiFeedback.classList.remove('show');
+                document.querySelector('.question-card').style.animation = 'fadeIn 0.5s forwards';
+                
+                // Здесь будет логика перехода к следующему вопросу
+                setTimeout(() => {
+                    // Пример изменения вопроса
+                    document.getElementById('question').textContent = "Какой оптимальный срок для планирования свадьбы?";
+                    options.forEach((opt, i) => {
+                        opt.querySelector('span').textContent = [
+                            "1-2 месяца",
+                            "3-6 месяцев",
+                            "6-12 месяцев",
+                            "Более года"
+                        ][i];
+                    });
+                    
+                    // Сброс выбора
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    nextBtn.disabled = true;
+                    document.querySelector('.question-card').style.animation = '';
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

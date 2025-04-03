@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бюджетирование и финансы | Тест</title>
+</head>
+<style>
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5fbff;
+    background-image: url('https://www.transparenttextures.com/patterns/soft-pad.png');
+    min-height: 100vh;
+    color: #2c3e50;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.quiz-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.quiz-header h1 {
+    color: #2c5fa8;
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.quiz-header h1::before, .quiz-header h1::after {
+    content: "💰";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8em;
+}
+
+.quiz-header h1::before {
+    left: -40px;
+}
+
+.quiz-header h1::after {
+    right: -40px;
+}
+
+.question-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(100, 149, 237, 0.2);
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.question-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(to bottom, #2c5fa8, #5d9cec);
+}
+
+.question-text {
+    font-size: 1.3em;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-weight: 500;
+    position: relative;
+    padding-left: 20px;
+}
+
+.question-text::before {
+    content: "Q";
+    position: absolute;
+    left: -10px;
+    color: #5d9cec;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.options-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.option {
+    background: #f5faff;
+    border-radius: 8px;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.option::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: #a8c6ff;
+    transition: all 0.3s;
+}
+
+.option:hover {
+    background: #e6f2ff;
+    transform: translateX(5px);
+}
+
+.option:hover::before {
+    width: 8px;
+    background: #2c5fa8;
+}
+
+.option.selected {
+    background: #e6f2ff;
+    box-shadow: inset 0 0 0 2px #2c5fa8;
+}
+
+.option input {
+    margin-right: 15px;
+    transform: scale(1.2);
+}
+
+.next-btn {
+    display: block;
+    margin: 30px auto 0;
+    background: #2c5fa8;
+    color: white;
+    padding: 12px 35px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.next-btn::after {
+    content: "→";
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.next-btn:hover {
+    background: #1a3d7a;
+    padding-right: 50px;
+}
+
+.next-btn:hover::after {
+    opacity: 1;
+    right: 15px;
+}
+
+.next-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    padding-right: 35px;
+}
+
+.next-btn:disabled::after {
+    display: none;
+}
+
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.progress-steps {
+    display: flex;
+    gap: 5px;
+    flex-grow: 1;
+    margin: 0 20px;
+}
+
+.progress-step {
+    height: 6px;
+    background: #e0ecff;
+    border-radius: 3px;
+    flex-grow: 1;
+    transition: all 0.3s;
+}
+
+.progress-step.active {
+    background: linear-gradient(to right, #5d9cec, #2c5fa8);
+}
+
+.question-counter {
+    color: #2c5fa8;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.feedback-message {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background: #e6f2ff;
+    color: #2c5fa8;
+    font-weight: 500;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.feedback-message.show {
+    opacity: 1;
+    height: auto;
+    padding: 15px;
+}
+
+@media (max-width: 600px) {
+    .quiz-header h1::before, .quiz-header h1::after {
+        display: none;
+    }
+    
+    .question-card {
+        padding: 20px 15px;
+    }
+}
+</style>
+<body>
+    <div class="container">
+        <div class="quiz-header">
+            <h1>Бюджетирование и финансы</h1>
+            <p>Тест на знание финансовых аспектов свадебного бизнеса</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="question-counter">Вопрос 1/20</div>
+            <div class="progress-steps">
+                <div class="progress-step active"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+                <!-- Повторить для общего количества вопросов -->
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-text">Какой процент от общего бюджета свадьбы обычно выделяют на банкет?</div>
+            
+            <div class="feedback-message" id="feedback"></div>
+            
+            <div class="options-container">
+                <label class="option">
+                    <input type="radio" name="answer" value="A">
+                    <span>20-30%</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="B">
+                    <span>35-45%</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="C">
+                    <span>50-60%</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer" value="D">
+                    <span>Более 70%</span>
+                </label>
+            </div>
+
+            <button class="next-btn" id="next-btn" disabled>Следующий вопрос</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const options = document.querySelectorAll('.option');
+            const nextBtn = document.getElementById('next-btn');
+            const feedback = document.getElementById('feedback');
+            
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    nextBtn.disabled = false;
+                    
+                    // Пример обратной связи
+                    feedback.textContent = "Правильно! В среднем на банкет выделяют 40-50% бюджета.";
+                    feedback.classList.add('show');
+                });
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                feedback.classList.remove('show');
+                
+                // Здесь будет логика перехода к следующему вопросу
+                setTimeout(() => {
+                    // Пример изменения вопроса
+                    document.querySelector('.question-text').textContent = "Какой метод ценообразования наиболее эффективен для свадебных услуг?";
+                    options.forEach((opt, i) => {
+                        opt.querySelector('span').textContent = [
+                            "Себестоимость + фиксированная наценка",
+                            "Ценообразование на основе конкурентов",
+                            "Ценностное ценообразование",
+                            "Динамическое ценообразование"
+                        ][i];
+                    });
+                    
+                    // Сброс выбора
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    nextBtn.disabled = true;
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
