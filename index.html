@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Курсы свадебных организаторов</title>
+    <style>
+        /* Базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body.page-1 {
+            color: rgb(44, 43, 43);
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Основной контент */
+        .content {
+            background-color: rgb(208, 238, 255);
+            padding: 20px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(23, 39, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            margin: 20px 0;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Видео под меню */
+        .video-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end; /* Изменено с center на flex-end */
+            margin: 20px 0;
+            padding-right: 5%; /* Добавлено для смещения вправо */
+        }
+        
+        .video-container video {
+            width: 80%;
+            max-width: 800px;
+            height: auto;
+        }
+
+        /* Меню навигации */
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .menu a {
+            background: rgba(171, 238, 255, 0.8);
+            box-shadow: 0 5px 15px rgba(23, 39, 255, 0.2);
+            padding: 15px;
+            border-radius: 20px;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .menu a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(23, 39, 255, 0.3);
+            background: rgba(171, 238, 255, 1);
+        }
+
+        /* Кнопки авторизации */
+        .auth-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-end;
+            z-index: 100;
+        }
+
+        .forum-btn, .auth-btn, .logout-btn {
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 180px;
+            border: none;
+            color: white;
+        }
+
+        .forum-btn {
+            background: linear-gradient(135deg, #4a6bff, #6a8bff);
+            box-shadow: 0 5px 15px rgba(74, 107, 255, 0.4);
+            display: none;
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, #ff6b8b, #ff8e9e);
+            box-shadow: 0 5px 15px rgba(255, 105, 140, 0.4);
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #f39c12, #f1c40f);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+            display: none;
+        }
+
+        .forum-btn:hover, .auth-btn:hover, .logout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Сообщение об авторизации */
+        .auth-success-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            padding: 15px 25px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.5s forwards, fadeOut 0.5s forwards 4.5s;
+            border: 2px solid white;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        /* Иконки помощника и компьютера */
+        .assistant-icon, .computer-icon {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+
+        .assistant-icon {
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            animation: pulse 2s infinite;
+        }
+
+        .computer-icon {
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #2196F3, #64B5F6);
+            display: none;
+        }
+
+        .assistant-icon:hover, .computer-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .assistant-icon img, .computer-icon img {
+            width: 60%;
+            height: 60%;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Чат помощника */
+        .assistant-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(240, 248, 255, 0.98);
+            z-index: 2000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            backdrop-filter: blur(5px);
+        }
+
+        .chat-container {
+            width: 95%;
+            max-width: 400px;
+            height: 80vh;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: chatAppear 0.5s forwards 0.3s;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chat-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #d0eeff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .chat-avatar img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .chat-title {
+            flex: 1;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background: #f5f9ff;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            line-height: 1.3;
+            animation: messageAppear 0.3s ease-out;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background: white;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.2);
+        }
+
+        .typing-message {
+            display: flex;
+            gap: 5px;
+            padding: 8px 12px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #ccc;
+            border-radius: 50%;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        .chat-input-area {
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Анимации */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translate(-50%, -50px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @keyframes chatAppear {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes messageAppear {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-3px); background: #66BB6A; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Медиазапросы для адаптивности */
+        @media (min-width: 768px) {
+            .content {
+                padding: 30px;
+                border-radius: 40px;
+                margin: 40px 0;
+            }
+
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            p {
+                font-size: 1.5rem;
+            }
+
+            .menu {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .menu a {
+                padding: 20px;
+                font-size: 1.1rem;
+                border-radius: 30px;
+            }
+
+            .forum-btn, .auth-btn, .logout-btn {
+                padding: 15px 25px;
+                font-size: 1rem;
+                width: 220px;
+                border-radius: 30px;
+            }
+
+            .assistant-icon, .computer-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .video-container video {
+                max-width: 800px;
+            }
+
+            .chat-container {
+                height: 70vh;
+                max-height: 600px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            h1 {
+                font-size: 4rem;
+            }
+
+            p {
+                font-size: 1.8rem;
+            }
+
+            .content {
+                padding: 40px;
+                border-radius: 50px;
+            }
+
+            .menu {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 1200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .menu {
+                grid-template-columns: 1fr;
+            }
+
+            .menu a {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .forum-btn, .auth-btn, .logout-btn {
+                width: 160px;
+                padding: 10px 15px;
+                font-size: 0.8rem;
+            }
+
+            .assistant-icon, .computer-icon {
+                width: 45px;
+                height: 45px;
+            }
+
+            .video-container video {
+                width: 95%;
+            }
+
+            .auth-buttons {
+                bottom: 15px;
+                right: 15px;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body class="page-1">
+    <!-- Сообщение об успешной авторизации -->
+    <div class="auth-success-message" id="authSuccessMessage">
+        Вы успешно авторизовались и теперь сможете записаться на интересующие Вас курсы!
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content">
+        <h1 class="show">Amore legato con anelli</h1>
+        <p class="show">"Создавайте не просто свадьбы, а волшебные моменты, которые останутся в сердцах навсегда!"</p>
+    </div>
+
+    <!-- Иконка компьютера -->
+    <a href="виртуальные экскурсии.html" class="computer-icon" id="computerIcon">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDY0IDk2SDQ4QTI0IDI0IDAgMCAwIDI0IDEyMHYyNTZhMjQgMjQgMCAwIDAgMjQgMjRoNDE2YTI0IDI0IDAgMCAwIDI0LTI0VjEyMGEyNCAyNCAwIDAgMC0yNC0yNHptLTI0IDI3Mkg3MlYxNDRoMzY4eiIgZmlsbD0id2hpdGUiLz48cGF0aCBkPSJNMzY4IDE0NGgxNnYxNjBoLTE2eiIgZmlsbD0id2hpdGUiLz48cGF0aCBkPSJNMTI4IDE0NGgxNnYxNjBoLTE2eiIgZmlsbD0id2hpdGUiLz48cGF0aCBkPSJNOTYgMzg0aDMyMHY0OEg5NnoiIGZpbGw9IndoaXRlIi8+PC9zdmc+" alt="Virtual Tours">
+    </a>
+
+    <!-- Иконка помощника (изменена на новую иконку) -->
+    <div class="assistant-icon" id="assistantIcon">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNMjU2IDhDMTE5IDggOCAxMTkgOCAyNTZzMTExIDI0OCAyNDggMjQ4IDI0OC0xMTEgMjQ4LTI0OFMzOTMgOCAyNTYgOHptMCA0MGMxMTQuOSAwIDIwOCA5My4xIDIwOCAyMDggMCA0Ni4xLTE1LjUgODguNS00MS4yIDEyMi40LTI4LjEtMTYuNy02MS4yLTI2LjktOTYuNC0yNi45LTgwLjkgMC0xNDYuNyA1OS4xLTE1OS43IDEzNi4xQzExMC4xIDMyNi42IDQ4IDI1Ni44IDQ4IDE3NiAzMiAxOTYuMyAzMiAyMjMuNiAzMiAyNTZjMCAxMjMuNyAxMDAuMyAyMjQgMjI0IDIyNHMyMjQtMTAwLjMgMjI0LTIyNGMwLTMyLjQtMC0xNTkuNy0wLTE1OS43QzQzNiAxMDkuNiAzNTkuNCA0OCAyNTYgNDh6bS0zOC4xIDEyOC4xYzAgMTkuOC0xNiA1Ny4xLTE2IDU3LjEgMzIuMSA1LjkgNTMuOSAxNi4xIDUzLjkgMTYuMWwxNi0zOS4xczI0LjktMTYgMzguMS0xNiAyMy44IDE2IDIzLjggMTYtMTQuOSA4LjktMTQuOSAyOS43IDE2IDUyLjMgMTYgNTIuMyAyOS43LTQ5LjQgNTcuMS02Ny4zIDU3LjEtNjcuM1YxODQuMXoiIGZpbGw9IndoaXRlIi8+PC9zdmc+" alt="Virtual Assistant">
+    </div>
+
+    <!-- Чат помощника -->
+    <div class="assistant-page" id="assistantPage">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-avatar">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Робот-помощник">
+                </div>
+                <div class="chat-title">Свадебный помощник</div>
+                <button class="chat-close" id="closeAssistant">×</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Сообщения будут добавляться здесь -->
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" placeholder="Напишите сообщение..." id="chatInput">
+                <button class="send-btn" id="sendBtn">→</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Меню навигации -->
+    <div class="menu">
+        <a href="выбрать курс.html" target="_blank" class="show">Выбрать курс</a>
+        <a href="отзывы.html" target="_blank" class="show">Отзывы</a>
+        <a href="Адреса наших точек.html" target="_blank" class="show">Адреса наших точек</a>
+        <a href="справка часто задаваемые вопросы.html" target="_blank" class="show">Справка/Часто задаваемые вопросы</a>
+    </div>
+    
+    <!-- Видео под меню -->
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <source src="1112.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+    </div>
+    
+    <!-- Кнопки -->
+    <div class="auth-buttons">
+        <a href="форум и сообщество.html" class="forum-btn" id="forumBtn">Форум и сообщество</a>
+        <a href="авторизация.html" class="auth-btn" id="authBtn">Авторизация</a>
+        <a href="#" class="logout-btn" id="logoutBtn" onclick="logout()">Выйти</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const authSuccess = urlParams.get('auth');
+            const fromStorage = localStorage.getItem('showAuthSuccess');
+            
+            if (authSuccess === 'true' || fromStorage === 'true') {
+                const message = document.getElementById('authSuccessMessage');
+                message.style.display = 'block';
+                document.getElementById('forumBtn').style.display = 'block';
+                document.getElementById('authBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'block';
+                document.getElementById('computerIcon').style.display = 'flex';
+                localStorage.removeItem('showAuthSuccess');
+                
+                if (authSuccess === 'true') {
+                    const newUrl = window.location.pathname;
+                    window.history.replaceState({}, document.title, newUrl);
+                }
+            } else {
+                document.getElementById('forumBtn').style.display = 'none';
+                document.getElementById('authBtn').style.display = 'block';
+                document.getElementById('logoutBtn').style.display = 'none';
+                document.getElementById('computerIcon').style.display = 'none';
+            }
+
+            // Управление чатом
+            const assistantIcon = document.getElementById('assistantIcon');
+            const assistantPage = document.getElementById('assistantPage');
+            const closeAssistant = document.getElementById('closeAssistant');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendBtn');
+            
+            // Сообщения помощника
+            const botMessages = [
+                "Привет! Я ваш виртуальный помощник по организации свадеб.",
+                "Я могу помочь вам выбрать курс, записаться на консультацию или ответить на вопросы.",
+                "Просто напишите, что вас интересует, и я постараюсь помочь!",
+                "Наши курсы включают: организацию свадеб, флористику, оформление и многое другое.",
+                "Мы проводим как онлайн, так и оффлайн занятия с лучшими специалистами."
+            ];
+            
+            // Показать чат
+            assistantIcon.addEventListener('click', function() {
+                assistantPage.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                
+                // Очистить чат
+                chatMessages.innerHTML = '';
+                
+                // Добавить приветственное сообщение с анимацией набора
+                setTimeout(() => {
+                    addMessageWithTyping(botMessages[0], 'bot');
+                }, 500);
+                
+                setTimeout(() => {
+                    addMessageWithTyping(botMessages[1], 'bot');
+                }, 2500);
+            });
+            
+            // Закрыть чат
+            closeAssistant.addEventListener('click', function() {
+                assistantPage.style.display = 'none';
+                document.body.style.overflow = '';
+            });
+            
+            // Отправить сообщение
+            function sendMessage() {
+                const text = chatInput.value.trim();
+                if (text) {
+                    addMessage(text, 'user');
+                    chatInput.value = '';
+                    
+                    // Имитация ответа бота
+                    setTimeout(() => {
+                        const randomResponse = botMessages[Math.floor(Math.random() * botMessages.length)];
+                        addMessageWithTyping(randomResponse, 'bot');
+                    }, 1000);
+                }
+            }
+            
+            // Обработчики отправки
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendMessage();
+            });
+            
+            // Добавить сообщение
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(sender === 'bot' ? 'bot-message' : 'user-message');
+                messageDiv.textContent = text;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Добавить сообщение с анимацией набора
+            function addMessageWithTyping(text, sender) {
+                const typingDiv = document.createElement('div');
+                typingDiv.classList.add('message', 'bot-message', 'typing-message');
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('typing-dot');
+                    typingDiv.appendChild(dot);
+                }
+                
+                chatMessages.appendChild(typingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                setTimeout(() => {
+                    chatMessages.removeChild(typingDiv);
+                    addMessage(text, sender);
+                }, 1500);
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('isAuthenticated');
+            location.reload();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const isAuth = localStorage.getItem('isAuthenticated') === 'true';
+            document.getElementById('forumBtn').style.display = isAuth ? 'block' : 'none';
+            document.getElementById('authBtn').style.display = isAuth ? 'none' : 'block';
+            document.getElementById('logoutBtn').style.display = isAuth ? 'block' : 'none';
+            document.getElementById('computerIcon').style.display = isAuth ? 'flex' : 'none';
+        });
+    </script>
+</body>
+</html>
